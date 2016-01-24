@@ -30,11 +30,11 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
         Flight::json(array('status' => 'error', 'message' => 'Illegal token'), 403);
     }
 
-    $statuspageId = $config['mappings'][$monitorId];
-    if (!ISSET($statuspageId)) {
+    if (!ISSET($config['mappings'][$monitorId])) {
         Flight::json(array('status' => 'error', 'message' => 'Unknown monitor'), 400);
     }
 
+    $statuspageId = $config['mappings'][$monitorId];
     if (!is_array($statuspageId))
         $statuspageId = array($statuspageId);
 
@@ -64,7 +64,6 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
 
     Flight::json(array('status' => 'ok', 'message' => 'Statuspage updated'));
 });
-
 // endregion
 
 // Start the application
