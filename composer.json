@@ -1,0 +1,16 @@
+{
+    "name": "jmesserli/status-hook",
+    "description": "Relays Uptime Robot webhooks to your Cachet status page",
+    "type": "project",
+    "require": {
+        "mikecao/flight": "^1.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joel Messerli",
+            "email": "joel@jmnw.me"
+        }
+    ],
+    "minimum-stability": "stable"
+}
