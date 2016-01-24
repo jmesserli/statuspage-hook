@@ -35,22 +35,31 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
         Flight::json(array('status' => 'error', 'message' => 'Unknown monitor'), 400);
     }
 
-    // Perform the request
-    $requestOptions = array(
-        'http' => array(
-            'header' => "Content-type: application/json",
-            'method' => 'PUT',
-            'content' => '{ "status": ' . ($status == 2 ? 1 : 4) . ' }'
-        )
-    );
+    if (!is_array($statuspageId))
+        $statuspageId = array($statuspageId);
 
-    $url = $config['cachetUrl'] . "/api/v1/components/$statuspageId";
+    // Update all statuspage components
+    foreach ($statuspageId as $currentStatuspageId) {
+        // Perform the request
+        $requestOptions = array(
+            'http' => array(
+                'header' => array(
+                    "Content-type: application/json",
+                    "X-Cachet-Token: {$config['cachetApiToken']}"
+                ),
+                'method' => 'PUT',
+                'content' => '{ "status": ' . ($status == 2 ? 1 : 4) . ' }'
+            )
+        );
 
-    $ctx = stream_context_create($requestOptions);
-    $result = file_get_contents($url, false, $ctx);
+        $url = $config['cachetUrl'] . "/api/v1/components/$currentStatuspageId";
 
-    if (!$result) {
-        Flight::json(array('status' => 'error', 'message' => 'Internal Server Error'), 500);
+        $ctx = stream_context_create($requestOptions);
+        $result = file_get_contents($url, false, $ctx);
+
+        if (!$result) {
+            Flight::json(array('status' => 'error', 'message' => 'Internal Server Error'), 500);
+        }
     }
 
     Flight::json(array('status' => 'ok', 'message' => 'Statuspage updated'));
