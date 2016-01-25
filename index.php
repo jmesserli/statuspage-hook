@@ -30,7 +30,7 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
         Flight::json(array('status' => 'error', 'message' => 'Illegal token'), 403);
     }
 
-    if (!ISSET($config['mappings'][$monitorId])) {
+    if (!isset($config['mappings'][$monitorId])) {
         Flight::json(array('status' => 'error', 'message' => 'Unknown monitor'), 400);
     }
 
