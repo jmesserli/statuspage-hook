@@ -18,12 +18,22 @@
  $ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+require_once "config-functions.php";
+
 $config = array(
 
     // Those mappings from Uptimerobot monitor ids to Cachet component ids
-    "mappings" => array(
-        1234556 => 1,
-        2348123 => array(2, 3) // Can also update multiple components
+    "mappings" => mappings(
+
+        // Fluent API style, mapping the Uptimerobot monitor id 12345 to the Cachet component 1 with the status 4
+        map(12345)->toComponent(1)->andStatus(4),
+
+        // The default status is 4 so you can omit it
+        map(54321)->toComponent(2),
+
+        // You can map a monitor to multiple components with multiple statuses if you like
+        map(98742)->toComponent(3)->andStatus(2)
+                  ->toComponent(5) // Default is again 4
     ),
 
     // No trailing slash!

@@ -4,7 +4,7 @@ A simple webhook for [Uptime Robot](https://uptimerobot.com) users to update the
 
 ## Installation
 
-Run `composer update` to pull the needed dependencies using [Composer](https://getcomposer.org/).
+Run `composer update --no-dev` to pull the needed dependencies using [Composer](https://getcomposer.org/).
 
 Rename the `config.example.php` to `config.php` and set the values accordingly.
 The config contains comments that explain which values you have to enter.

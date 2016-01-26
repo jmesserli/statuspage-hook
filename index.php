@@ -23,7 +23,7 @@ require 'vendor/autoload.php';
 require_once 'config.php';
 
 // region Routes
-Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($monitorId, $status) use ($config) {
+Flight::route('/api/monitor/@monitorId:[0-9]+/status/@uptimerobotStatus:[12]', function ($monitorId, $uptimerobotStatus) use ($config) {
     $token = Flight::request()->query['token'];
 
     if (!$token || $token !== $config['urlSecret']) {
@@ -34,12 +34,10 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
         Flight::json(array('status' => 'error', 'message' => 'Unknown monitor'), 400);
     }
 
-    $statuspageId = $config['mappings'][$monitorId];
-    if (!is_array($statuspageId))
-        $statuspageId = array($statuspageId);
+    $components = $config['mappings'][$monitorId];
 
     // Update all statuspage components
-    foreach ($statuspageId as $currentStatuspageId) {
+    foreach ($components as $component => $status) {
         // Perform the request
         $requestOptions = array(
             'http' => array(
@@ -48,11 +46,11 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@status:[12]', function ($m
                     "X-Cachet-Token: {$config['cachetApiToken']}"
                 ),
                 'method' => 'PUT',
-                'content' => '{ "status": ' . ($status == 2 ? 1 : 4) . ' }'
+                'content' => '{ "status": ' . ($uptimerobotStatus == 2 ? 1 : $status) . ' }'
             )
         );
 
-        $url = $config['cachetUrl'] . "/api/v1/components/$currentStatuspageId";
+        $url = $config['cachetUrl'] . "/api/v1/components/$component";
 
         $ctx = stream_context_create($requestOptions);
         $result = file_get_contents($url, false, $ctx);

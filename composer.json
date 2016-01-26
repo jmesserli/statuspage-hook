@@ -12,5 +12,8 @@
             "email": "joel@jmnw.me"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "require-dev": {
+        "raveren/kint": "^1.0"
+    }
 }
