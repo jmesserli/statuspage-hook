@@ -27,36 +27,30 @@ Flight::route('/api/monitor/@monitorId:[0-9]+/status/@uptimerobotStatus:[12]', f
     $token = Flight::request()->query['token'];
 
     if (!$token || $token !== $config['urlSecret']) {
-        Flight::json(array('status' => 'error', 'message' => 'Illegal token'), 403);
+        Flight::json(['status' => 'error', 'message' => 'Illegal token'], 403);
     }
 
     if (!isset($config['mappings'][$monitorId])) {
-        Flight::json(array('status' => 'error', 'message' => 'Unknown monitor'), 400);
+        Flight::json(['status' => 'error', 'message' => 'Unknown monitor'], 400);
     }
 
     $components = $config['mappings'][$monitorId];
 
     // Update all statuspage components
     foreach ($components as $component => $status) {
-        // Perform the request
-        $requestOptions = array(
-            'http' => array(
-                'header' => array(
-                    "Content-type: application/json",
-                    "X-Cachet-Token: {$config['cachetApiToken']}"
-                ),
-                'method' => 'PUT',
-                'content' => '{ "status": ' . ($uptimerobotStatus == 2 ? 1 : $status) . ' }'
-            )
+        $newStatus = $uptimerobotStatus == 2 ? 1 : $status;
+        $response = Requests::put(
+            "{$config['cachetUrl']}/api/v1/components/$component", // URL
+            [ // Headers
+                'X-Cachet-Token' => $config['cachetApiToken'],
+                'Content-Type' => 'application/json'
+            ], json_encode(['status' => $newStatus]) // Body
         );
 
-        $url = $config['cachetUrl'] . "/api/v1/components/$component";
-
-        $ctx = stream_context_create($requestOptions);
-        $result = file_get_contents($url, false, $ctx);
-
-        if (!$result) {
-            Flight::json(array('status' => 'error', 'message' => 'Internal Server Error'), 500);
+        if (!$response->success) {
+            Flight::json(['status' => 'error', 'message' => "Internal Server Error: {$response->status_code}"], 500);
+        } elseif (json_decode($response->body)->data->status !== $newStatus) {
+            Flight::json(['status' => 'error', 'message' => 'Status change not reflected in the cachet api']);
         }
     }
 

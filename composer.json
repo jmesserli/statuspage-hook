@@ -3,7 +3,8 @@
     "description": "Relays Uptime Robot webhooks to your Cachet status page",
     "type": "project",
     "require": {
-        "mikecao/flight": "^1.2"
+        "mikecao/flight": "^1.2",
+        "rmccue/requests": "v1.7.0"
     },
     "license": "MIT",
     "authors": [

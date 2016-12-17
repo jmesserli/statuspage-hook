@@ -70,13 +70,9 @@ class Map
  * @param Map[] ...$maps
  * @return array
  */
-function mappings()
+function mappings(...$maps)
 {
     $resultArray = array();
-
-    // PHP 5.5
-    $maps = func_get_args();
-
     foreach ($maps as $map){
         $resultArray[$map->monitorId] = array();
 
