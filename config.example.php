@@ -25,15 +25,15 @@ $config = array(
     // Those mappings from Uptimerobot monitor ids to Cachet component ids
     "mappings" => mappings(
 
-        // Fluent API style, mapping the Uptimerobot monitor id 12345 to the Cachet component 1 with the status 4
-        map(12345)->toComponent(1)->andStatus(4),
+        // Fluent API style, mapping the Uptimerobot monitor id 12345 to the Cachet component 1 with the status STATUS_MAJR_OUTAGE
+        map(12345)->toComponent(1)->andStatus(STATUS_MAJR_OUTAGE),
 
-        // The default status is 4 so you can omit it
+        // The default status is STATUS_MAJR_OUTAGE so you can omit it
         map(54321)->toComponent(2),
 
         // You can map a monitor to multiple components with multiple statuses if you like
-        map(98742)->toComponent(3)->andStatus(2)
-                  ->toComponent(5) // Default is again 4
+        map(98742)->toComponent(3)->andStatus(STATUS_PERF_DEGRADED)
+                  ->toComponent(5) // Default is again STATUS_MAJR_OUTAGE
     ),
 
     // No trailing slash!
@@ -44,5 +44,4 @@ $config = array(
 
     // Must be passed as ?token={urlSecret} to trigger
     "urlSecret" => ""
-
 );
