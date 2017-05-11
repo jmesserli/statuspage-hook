@@ -5,7 +5,8 @@
     "require": {
         "mikecao/flight": "^1.2",
         "rmccue/requests": "v1.7.0",
-        "monolog/monolog": "^1.22"
+        "monolog/monolog": "^1.22",
+        "swiftmailer/swiftmailer": "^5.4"
     },
     "license": "MIT",
     "authors": [

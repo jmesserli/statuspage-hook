@@ -32,7 +32,7 @@ $config = array(
 
         // You can map a monitor to multiple components with multiple statuses if you like
         map(98742)->toComponent(3)->andStatus(STATUS_PERF_DEGRADED)
-                  ->toComponent(5) // Default is again STATUS_MAJR_OUTAGE
+            ->toComponent(5) // Default is again STATUS_MAJR_OUTAGE
     ),
 
     // No trailing slash!
@@ -42,5 +42,16 @@ $config = array(
     "cachetApiToken" => "",
 
     // Must be passed as ?token={urlSecret} to trigger
-    "urlSecret" => ""
+    "urlSecret" => "",
+
+// Mail config is optional, sends ERROR log messages to the provided mail address
+//    "mail" => [
+//        "server" => "smtp.mailserver.domain",
+//        "port" => 587,
+//        "security" => "tls",
+//        "username" => "statushook@domain",
+//        "password" => "changeme",
+//        "sender" => ["statushook@domain" => "StatusHook"],
+//        "recipient" => ["somerecipient@domain", "otherrecipient@domain"],
+//    ],
 );
