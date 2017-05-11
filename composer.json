@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "mikecao/flight": "^1.2",
-        "rmccue/requests": "v1.7.0"
+        "rmccue/requests": "v1.7.0",
+        "monolog/monolog": "^1.22"
     },
     "license": "MIT",
     "authors": [
@@ -15,6 +16,6 @@
     ],
     "minimum-stability": "stable",
     "require-dev": {
-        "raveren/kint": "^1.0"
+        "kint-php/kint": "^2.0"
     }
 }
